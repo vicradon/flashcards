@@ -1,5 +1,7 @@
-import { Button, Flex, Text } from "@chakra-ui/react";
+import { Button, Container, Flex, Text, Box, useToast } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
+import { useAuth } from "../Providers/AuthProviders";
+import supabase from "../utils/supabase";
 
 interface IMainLayoutProps {
   children: React.ReactNode;
@@ -7,21 +9,43 @@ interface IMainLayoutProps {
 
 const MainLayout = (props: IMainLayoutProps) => {
   const { children } = props;
+  const { isSignedIn } = useAuth();
+  const toast = useToast();
+
+  async function signOut() {
+    const { error } = await supabase.auth.signOut();
+    console.log("completed signout");
+
+    if (error) {
+      toast({
+        title: "An error occured " + error.message,
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+    }
+  }
 
   return (
-    <div>
-      <Flex mb={8} justifyContent={"space-between"}>
-        <Text>Flashcard</Text>
+    <Box padding={4}>
+      <Container maxW={"container.xl"}>
+        <Flex mb={8} justifyContent={"space-between"}>
+          <Text>Flashcard</Text>
 
-        <Flex columnGap={4}>
-          <Link to={"/auth/signin"}>
-            <Button>Sign in</Button>
-          </Link>
+          {isSignedIn ? (
+            <Button variant="outline" onClick={signOut}>
+              Sign out
+            </Button>
+          ) : (
+            <Link to={"/auth/signin"}>
+              <Button colorScheme="teal">Sign in</Button>
+            </Link>
+          )}
         </Flex>
-      </Flex>
+      </Container>
 
       {children}
-    </div>
+    </Box>
   );
 };
 

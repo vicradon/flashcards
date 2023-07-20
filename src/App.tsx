@@ -1,20 +1,25 @@
-import { Button, ChakraProvider, Switch } from "@chakra-ui/react";
-import { Route } from "react-router-dom";
+import { ChakraProvider } from "@chakra-ui/react";
+import { Route, BrowserRouter, Routes } from "react-router-dom";
 import { FlashcardList } from "./pages/FlashcardList";
 import { StudyCardSet } from "./pages/StudyCardSet";
+import NotFound from "./pages/NotFound";
+import Signin from "./pages/Signin";
+import AuthProvider from "./Providers/AuthProviders";
 
 function App() {
   return (
-    <ChakraProvider>
-      <Switch>
-        <Route path="/">
-          <FlashcardList />
-        </Route>
-        <Route path="/study/:id">
-          <StudyCardSet />
-        </Route>
-      </Switch>
-    </ChakraProvider>
+    <AuthProvider>
+      <ChakraProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<FlashcardList />} />
+            <Route path="/auth/signin" element={<Signin />} />
+            <Route path="/study/:id" element={<StudyCardSet />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </ChakraProvider>
+    </AuthProvider>
   );
 }
 

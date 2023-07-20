@@ -30,7 +30,7 @@ const MainLayout = (props: IMainLayoutProps) => {
     <Box padding={4}>
       <Container maxW={"container.xl"}>
         <Flex mb={8} justifyContent={"space-between"}>
-          <Text>Flashcard</Text>
+          <Link to="/">Flashcards</Link>
 
           {isSignedIn ? (
             <Button variant="outline" onClick={signOut}>

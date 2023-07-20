@@ -5,15 +5,17 @@ import { Container, Heading, Text, Box } from "@chakra-ui/react";
 
 export default function Signin() {
   const getURL = (() => {
-    let url = import.meta.env.SITE_URL;
+    let url =
+      import.meta.env.VITE_SITE_URL ??
+      import.meta.env.VERCEL_URL ??
+      "http://localhost:5173/";
+
     // Make sure to include `https://` when not localhost.
     url = url.includes("http") ? url : `https://${url}`;
     // Make sure to include a trailing `/`.
     url = url.charAt(url.length - 1) === "/" ? url : `${url}/`;
     return url;
   })();
-
-  console.log(import.meta.env.SITE_URL);
 
   return (
     <Box padding={4}>
@@ -26,7 +28,7 @@ export default function Signin() {
           providers={[]}
           supabaseClient={supabase}
           appearance={{ theme: ThemeSupa }}
-          redirectTo={`${getURL}`}
+          redirectTo={getURL}
         />
       </Container>
     </Box>

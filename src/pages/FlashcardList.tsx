@@ -7,8 +7,9 @@ import {
   Input,
 } from "@chakra-ui/react";
 import MainLayout from "../Layout/MainLayout";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { Flashcard } from "../utils/interfaces";
+import supabase from "../utils/supabase";
 
 interface IFlashcardListProps {}
 
@@ -18,8 +19,20 @@ export const FlashcardList = (props: IFlashcardListProps) => {
 
   const [newFlashcardTitle, setNewFlashcardTitle] = useState("");
 
-  const handleCreateFlashcardSet = () => {
-    // creates a new row on the db
+  const handleCreateFlashcardSet = async (event: FormEvent) => {
+    event.preventDefault();
+
+    const { data, error } = await supabase
+      .from("flashcard-sets")
+      .insert([{ title: newFlashcardTitle }])
+      .select();
+
+    if (error) {
+      console.log(error);
+      return;
+    }
+
+    console.log(data);
   };
 
   return (
@@ -43,12 +56,13 @@ export const FlashcardList = (props: IFlashcardListProps) => {
         </Flex>
 
         {addingSet && (
-          <Flex as="form">
+          <Flex onSubmit={handleCreateFlashcardSet} as="form">
             <Input
               width={"400px"}
               value={newFlashcardTitle}
               onChange={(event) => setNewFlashcardTitle(event.target.value)}
               autoFocus
+              required
             />
 
             <Flex>
@@ -57,7 +71,7 @@ export const FlashcardList = (props: IFlashcardListProps) => {
                   backgroundColor: "transparent",
                 }}
                 backgroundColor={"transparent"}
-                onClick={handleCreateFlashcardSet}
+                type="submit"
               >
                 ✅
               </Button>

@@ -2,7 +2,7 @@ import { Box, Button, Flex, Input, Textarea, useToast } from "@chakra-ui/react";
 import { ChangeEvent, FormEvent, useState } from "react";
 import MainLayout from "../Layout/MainLayout";
 import supabase from "../utils/supabase";
-import { redirect, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function CreateStudyDeck() {
   const toast = useToast();

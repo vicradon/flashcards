@@ -1,27 +1,18 @@
-import {
-  Button,
-  Container,
-  Heading,
-  Flex,
-  Text,
-  Input,
-} from "@chakra-ui/react";
+import { Button, Container, Heading, Flex, Text } from "@chakra-ui/react";
 import MainLayout from "../Layout/MainLayout";
-import { FormEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Flashcard } from "../utils/interfaces";
 import supabase from "../utils/supabase";
 import { Link } from "react-router-dom";
+import { PostgrestSingleResponse } from "@supabase/supabase-js";
 
-interface IFlashcardListProps {}
-
-export const FlashcardList = (props: IFlashcardListProps) => {
-  const [flashcardSets, setFlashcardSets] = useState([]);
+export const FlashcardList = () => {
+  const [flashcardSets, setFlashcardSets] = useState<Flashcard[]>([]);
 
   useEffect(() => {
     (async () => {
-      const { data, error: insertError } = await supabase
-        .from("flashcard_sets")
-        .select("*");
+      const { data, error: insertError }: PostgrestSingleResponse<Flashcard[]> =
+        await supabase.from("flashcard_sets").select("*");
 
       if (insertError) {
         console.log(insertError);

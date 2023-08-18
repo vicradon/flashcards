@@ -1,4 +1,4 @@
-import { ChakraProvider } from "@chakra-ui/react";
+import { ChakraProvider, ColorModeScript } from "@chakra-ui/react";
 import { Route, BrowserRouter, Routes } from "react-router-dom";
 import { FlashcardList } from "./pages/FlashcardList";
 import { StudyCardSet } from "./pages/StudyCardSet";
@@ -6,11 +6,13 @@ import NotFound from "./pages/NotFound";
 import Signin from "./pages/Signin";
 import AuthProvider from "./Providers/AuthProviders";
 import CreateStudyDeck from "./pages/CreateStudyDeck";
+import theme from "./utils/theme";
 
 function App() {
   return (
     <AuthProvider>
-      <ChakraProvider>
+      <ChakraProvider theme={theme}>
+        <ColorModeScript initialColorMode={theme.config.initialColorMode} />
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<FlashcardList />} />

@@ -1,4 +1,11 @@
-import { Button, Container, Flex, Text, Box, useToast } from "@chakra-ui/react";
+import {
+  Button,
+  Container,
+  Flex,
+  Box,
+  useToast,
+  Image,
+} from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../Providers/AuthProviders";
 import supabase from "../utils/supabase";
@@ -30,7 +37,15 @@ const MainLayout = (props: IMainLayoutProps) => {
     <Box padding={4}>
       <Container maxW={"container.xl"}>
         <Flex mb={8} justifyContent={"space-between"}>
-          <Link to="/">Flashcards</Link>
+          <Flex>
+            <Image
+              src="/favicons/favicon-32x32.png"
+              alt="logo"
+              boxSize="24px"
+              mr={2}
+            />
+            <Link to="/">Flashcards</Link>
+          </Flex>
 
           {isSignedIn ? (
             <Button variant="outline" onClick={signOut}>
